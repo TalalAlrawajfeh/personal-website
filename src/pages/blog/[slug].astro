@@ -1,0 +1,67 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render, type CollectionEntry } from "astro:content";
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.image}
+  type="article"
+>
+  <div class="page-intro">
+    <div class="container narrow">
+      <a class="back-link" href="/blog/">
+        ← All writing
+      </a>
+      <p class="eyebrow">
+        <time datetime={post.data.publishedAt.toISOString()}>
+          {post.data.publishedAt.toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}
+        </time>
+      </p>
+      <h1>{post.data.title}</h1>
+      <p>{post.data.description}</p>
+    </div>
+  </div>
+  <article class="container narrow article-body">
+    <div class="prose">
+      <Content />
+    </div>
+    {post.data.tags.length > 0 && (
+      <ul class="tag-list" aria-label="Post tags">
+        {post.data.tags.map((tag) => (
+          <li class="tag">{tag}</li>
+        ))}
+      </ul>
+    )}
+  </article>
+</Layout>
+<style>
+  .back-link {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .page-intro .eyebrow {
+    margin: 24px 0 0;
+  }
+  .article-body {
+    padding-top: 48px;
+  }
+  .article-body > .tag-list {
+    margin-top: 45px;
+  }
+</style>

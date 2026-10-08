@@ -1,0 +1,152 @@
+---
+import type { ResearchDiagram } from "../data/research-diagrams";
+
+interface Props {
+  diagram: ResearchDiagram;
+  compact?: boolean;
+}
+const { diagram, compact = false } = Astro.props;
+---
+
+<figure class:list={["research-diagram", { compact }]}>
+  <p class="diagram-heading">{diagram.heading}</p>
+  <ol class="diagram-flow" aria-label={diagram.heading}>
+    {diagram.steps.map((step, index) => (
+      <li>
+        <span class="step-number" aria-hidden="true">
+          0{index + 1}
+        </span>
+        <strong>{step.title}</strong>
+        {!compact && <span class="step-detail">{step.detail}</span>}
+      </li>
+    ))}
+  </ol>
+  <figcaption>{diagram.caption}</figcaption>
+</figure>
+
+<style>
+  .research-diagram {
+    margin: 0 0 32px;
+    padding: 26px;
+    background: var(--accent-soft);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+  }
+  .diagram-heading {
+    margin: 0 0 20px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  .diagram-flow {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .diagram-flow li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: var(--bg);
+    min-width: 0;
+  }
+  .diagram-flow li + li::before {
+    content: "→";
+    position: absolute;
+    left: -21px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+  }
+  .step-number {
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+  }
+  .diagram-flow strong {
+    font-size: 0.87rem;
+    line-height: 1.35;
+  }
+  .step-detail,
+  figcaption {
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.55;
+  }
+  figcaption {
+    margin-top: 18px;
+  }
+  .compact {
+    padding: 22px;
+    margin: 0;
+  }
+  .compact .diagram-flow {
+    gap: 20px;
+  }
+  .compact .diagram-flow li {
+    padding: 12px;
+  }
+  .compact .diagram-flow li + li::before {
+    left: -18px;
+  }
+  @media (max-width: 540px) {
+    .research-diagram {
+      padding: 20px;
+    }
+    .diagram-flow {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .diagram-flow li + li::before {
+      content: "↓";
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .compact .diagram-flow {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .compact .diagram-flow li {
+      padding: 9px;
+    }
+    .compact .diagram-flow strong {
+      font-size: 0.75rem;
+    }
+    .compact .diagram-flow li + li::before {
+      content: "→";
+      left: -14px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+  @media (max-width: 380px) {
+    .compact .diagram-flow {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .compact .diagram-flow li {
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+    }
+    .compact .diagram-flow strong {
+      font-size: 0.82rem;
+    }
+    .compact .diagram-flow li + li::before {
+      content: "↓";
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+</style>

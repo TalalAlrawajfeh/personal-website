@@ -1,0 +1,164 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ResearchDiagram from "../../components/ResearchDiagram.astro";
+import { researchDiagrams } from "../../data/research-diagrams";
+import { getCollection, render, type CollectionEntry } from "astro:content";
+export async function getStaticPaths() {
+  const projects = await getCollection("research");
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+interface Props {
+  project: CollectionEntry<"research">;
+}
+const { project } = Astro.props;
+const { Content } = await render(project);
+const statusLabel = {
+  published: "Published",
+  preprint: "Preprint",
+  ongoing: "Ongoing",
+}[project.data.status];
+---
+
+<Layout
+  title={project.data.title}
+  description={project.data.description}
+  image={project.data.image}
+  type="article"
+>
+  <div class="page-intro">
+    <div class="container narrow">
+      <a class="back-link" href="/research/">
+        ← All research
+      </a>
+      <p class="eyebrow">
+        {statusLabel}
+        {project.data.year ? ` · ${project.data.year}` : ""}
+      </p>
+      <h1>{project.data.title}</h1>
+      <p>{project.data.description}</p>
+    </div>
+  </div>
+  <div class="container narrow project-detail">
+    {project.data.image && (
+      <img class="project-image" src={project.data.image} alt="" />
+    )}
+    <dl class="project-facts">
+      {project.data.authors.length > 0 && (
+        <div>
+          <dt>Authors</dt>
+          <dd>{project.data.authors.join(", ")}</dd>
+        </div>
+      )}
+      {project.data.venue && (
+        <div>
+          <dt>Venue</dt>
+          <dd>{project.data.venue}</dd>
+        </div>
+      )}
+      <div>
+        <dt>Status</dt>
+        <dd>{statusLabel}</dd>
+      </div>
+    </dl>
+    {(project.data.paperUrl ||
+      project.data.arxivUrl ||
+      project.data.codeUrl ||
+      project.data.projectUrl) && (
+      <div class="resource-links project-resources">
+        {project.data.paperUrl && <a href={project.data.paperUrl}>Paper ↗</a>}
+        {project.data.arxivUrl && <a href={project.data.arxivUrl}>arXiv ↗</a>}
+        {project.data.codeUrl && <a href={project.data.codeUrl}>Code ↗</a>}
+        {project.data.projectUrl && (
+          <a href={project.data.projectUrl}>Project ↗</a>
+        )}
+      </div>
+    )}
+    {project.data.abstract && (
+      <section class="abstract">
+        <h2>Abstract</h2>
+        <p>{project.data.abstract}</p>
+      </section>
+    )}
+    {researchDiagrams[project.id] && (
+      <ResearchDiagram diagram={researchDiagrams[project.id]} />
+    )}
+    <div class="prose">
+      <Content />
+    </div>
+    {project.data.tags.length > 0 && (
+      <ul class="tag-list" aria-label="Research topics">
+        {project.data.tags.map((tag) => (
+          <li class="tag">{tag}</li>
+        ))}
+      </ul>
+    )}
+  </div>
+</Layout>
+<style>
+  .back-link {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .page-intro .eyebrow {
+    margin: 24px 0 0;
+  }
+  .project-detail {
+    padding-top: 42px;
+  }
+  .project-image {
+    width: 100%;
+    max-height: 440px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 32px;
+  }
+  .project-facts {
+    display: grid;
+    gap: 12px;
+    padding-bottom: 27px;
+    border-bottom: 1px solid var(--line);
+  }
+  .project-facts div {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 20px;
+  }
+  .project-facts dt {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+  .project-facts dd {
+    margin: 0;
+  }
+  .project-resources {
+    padding: 22px 0 32px;
+  }
+  .abstract {
+    padding: 22px 25px;
+    margin: 0 0 32px;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+  }
+  .abstract h2 {
+    font-size: 1.6rem;
+  }
+  .abstract p {
+    margin: 0;
+  }
+  .project-detail > .tag-list {
+    margin-top: 38px;
+  }
+  @media (max-width: 620px) {
+    .project-facts div {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+  }
+</style>

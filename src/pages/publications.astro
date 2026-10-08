@@ -1,0 +1,152 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { newestFirst } from "../data/publication-order";
+const publications = (await getCollection("publications")).sort(newestFirst);
+const years = [...new Set(publications.map((p) => p.data.year))];
+---
+
+<Layout
+  title="Publications"
+  description="Peer reviewed publications and preprints by Talal Alrawajfeh in differential privacy and machine learning."
+>
+  <div class="page-intro">
+    <div class="container">
+      <span class="eyebrow">Publications</span>
+      <h1>Publications & preprints</h1>
+      <p>
+        Peer reviewed research and preprints, newest first. Ongoing projects
+        appear on the <a href="/research/">research page</a>.
+      </p>
+    </div>
+  </div>
+  <div class="container publication-list">
+    {years.map((year) => (
+      <section aria-labelledby={`year-${year}`}>
+        <h2 id={`year-${year}`}>{year}</h2>
+        {publications
+          .filter((p) => p.data.year === year)
+          .map((publication) => (
+            <article class="publication">
+              <div class="publication-number" aria-hidden="true">
+                {String(publications.indexOf(publication) + 1).padStart(2, "0")}
+              </div>
+              <div>
+                <h3>{publication.data.title}</h3>
+                <p class="authors">{publication.data.authors.join(", ")}</p>
+                <p class="venue">
+                  <em>{publication.data.venue}</em>
+                  {publication.data.details &&
+                    `, ${publication.data.details}`}. {publication.data.year}.
+                </p>
+                {publication.data.note && (
+                  <p class="note">{publication.data.note}</p>
+                )}
+                <div class="resource-links">
+                  {publication.data.paperUrl && (
+                    <a href={publication.data.paperUrl}>Paper ↗</a>
+                  )}
+                  {publication.data.arxivUrl && (
+                    <a href={publication.data.arxivUrl}>arXiv ↗</a>
+                  )}
+                  {publication.data.codeUrl && (
+                    <a href={publication.data.codeUrl}>Code ↗</a>
+                  )}
+                  {publication.data.researchSlug && (
+                    <a href={`/research/${publication.data.researchSlug}/`}>
+                      Project →
+                    </a>
+                  )}
+                </div>
+                {publication.data.bibtex && (
+                  <details class="bibtex">
+                    <summary>BibTeX</summary>
+                    <pre><code>{publication.data.bibtex}</code></pre>
+                  </details>
+                )}
+              </div>
+            </article>
+          ))}
+      </section>
+    ))}
+  </div>
+</Layout>
+<style>
+  .publication-list {
+    padding-top: 36px;
+  }
+  .publication-list section {
+    display: grid;
+    grid-template-columns: 135px 1fr;
+    gap: 35px;
+  }
+  .publication-list h2 {
+    font-family: var(--serif);
+    font-size: 2rem;
+    margin: 21px 0;
+  }
+  .publication {
+    grid-column: 2;
+    display: grid;
+    grid-template-columns: 35px 1fr;
+    gap: 15px;
+    border-top: 1px solid var(--line);
+    padding: 26px 0 34px;
+  }
+  .publication-number {
+    color: var(--accent);
+    font-weight: 800;
+    font-size: 0.73rem;
+    padding-top: 4px;
+  }
+  .publication h3 {
+    font-family: var(--serif);
+    font-size: 1.45rem;
+    font-weight: 500;
+    margin: 0 0 9px;
+  }
+  .publication p {
+    margin: 0 0 4px;
+    font-size: 0.92rem;
+  }
+  .authors {
+    color: var(--ink);
+  }
+  .venue,
+  .note {
+    color: var(--muted);
+  }
+  .publication .resource-links {
+    margin-top: 16px;
+  }
+  .bibtex {
+    margin-top: 18px;
+    font-size: 0.82rem;
+  }
+  .bibtex summary {
+    color: var(--accent);
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .bibtex pre {
+    max-width: 100%;
+    overflow: auto;
+    padding: 15px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color: var(--ink);
+  }
+  @media (max-width: 620px) {
+    .publication-list section {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .publication {
+      grid-column: 1;
+    }
+    .publication-list h2 {
+      margin: 26px 0 12px;
+    }
+  }
+</style>

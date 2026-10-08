@@ -1,0 +1,97 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ResearchDiagram from "./ResearchDiagram.astro";
+import { researchDiagrams } from "../data/research-diagrams";
+interface Props {
+  project: CollectionEntry<"research">;
+  featured?: boolean;
+}
+const { project, featured = false } = Astro.props;
+const diagram = featured ? researchDiagrams[project.id] : undefined;
+const label = {
+  published: "Published",
+  preprint: "Preprint",
+  ongoing: "Ongoing",
+}[project.data.status];
+---
+
+<article class:list={["content-card", { "featured-project": !!diagram }]}>
+  <div class="card-main">
+    <span class="status">
+      {label}
+      {project.data.year ? ` · ${project.data.year}` : ""}
+    </span>
+    <h3>
+      <a href={`/research/${project.id}/`}>{project.data.title}</a>
+    </h3>
+    <p>{project.data.description}</p>
+    <div class="card-footer">
+      <div class="resource-links">
+        <a
+          href={`/research/${project.id}/`}
+          aria-label={`Read about ${project.data.title}`}
+        >
+          Read research →
+        </a>
+        {project.data.paperUrl && (
+          <a
+            href={project.data.paperUrl}
+            aria-label={`Paper: ${project.data.title}`}
+          >
+            Paper ↗
+          </a>
+        )}
+        {project.data.codeUrl && (
+          <a
+            href={project.data.codeUrl}
+            aria-label={`Code: ${project.data.title}`}
+          >
+            Code ↗
+          </a>
+        )}
+      </div>
+      <ul class="tag-list" aria-label="Topics">
+        {project.data.tags.slice(0, 3).map((tag) => (
+          <li class="tag">{tag}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  {diagram && <ResearchDiagram diagram={diagram} compact />}
+</article>
+
+<style>
+  .card-main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+  }
+  .featured-project {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 36px;
+    align-items: center;
+  }
+  .featured-project h3 {
+    font-size: 1.4rem;
+    line-height: 1.3;
+  }
+  .featured-project .card-main {
+    height: auto;
+  }
+  @media (max-width: 800px) {
+    .featured-project {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+  @media (max-width: 620px) {
+    .content-card {
+      padding: 20px;
+    }
+    .featured-project h3 {
+      font-size: 1.22rem;
+    }
+  }
+</style>

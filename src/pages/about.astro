@@ -1,0 +1,74 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { site } from "../data/site";
+---
+
+<Layout
+  title="About"
+  description="About Talal Alrawajfeh, doctoral researcher in trustworthy machine learning at the University of Helsinki."
+>
+  <div class="page-intro">
+    <div class="container">
+      <span class="eyebrow">Background</span>
+      <h1>About me</h1>
+    </div>
+  </div>
+  <section class="section container two-column">
+    <div class="prose">
+      <p>
+        I am currently a doctoral researcher at the University of Helsinki,
+        working in the{" "}
+        <a href="https://www.helsinki.fi/en/researchgroups/trustworthy-machine-learning/people">Trustworthy Machine Learning group</a>.
+        {" "}I hold both a Bachelor’s and a Master’s degree in Mathematics.
+      </p>
+      <p>My research interests include:</p>
+      <ul>
+        <li>Machine learning and deep learning</li>
+        <li>Bayesian statistics</li>
+        <li>Differential privacy</li>
+        <li>Interpretability and explainability</li>
+        <li>Tabular foundation models</li>
+        <li>Formal verification</li>
+      </ul>
+      <p>
+        Before doctoral research, I worked professionally as a software engineer
+        for around three years, followed by five years as a machine learning
+        engineer/applied scientist. Beyond my university education, I am mostly
+        self-taught in Mathematics, Computer Science, and Philosophy.
+      </p>
+      <p>
+        I am a Jordanian living in Finland. I love being in nature, drinking coffee, and reading books.
+      </p>
+    </div>
+    <aside class="side-note" aria-label="Profile details">
+      <h3>At a glance</h3>
+      <p>
+        <strong>Based in</strong>
+        <br />
+        Helsinki, Finland
+      </p>
+      <p>
+        <strong>Affiliation</strong>
+        <br />
+        University of Helsinki
+      </p>
+      <p>
+        <strong>Background</strong>
+        <br />
+        Mathematics · Computer Science · Philosophy
+      </p>
+      <h3>Connect</h3>
+      <p>
+        <a href={`mailto:${site.email}`}>Email</a>
+        <br />
+        <a href={site.github}>GitHub</a>
+        <br />
+        <a href={site.googleScholar}>Google Scholar</a>
+        <br />
+        <a href={site.orcid}>ORCID</a>
+        <br />
+        <a href={site.linkedin}>LinkedIn</a>
+      </p>
+    </aside>
+  </section>
+</Layout>

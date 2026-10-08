@@ -1,0 +1,110 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
+---
+
+<Layout
+  title="Blog"
+  description="Technical notes, research reflections, and personal writing by Talal Alrawajfeh."
+>
+  <div class="page-intro">
+    <div class="container">
+      <span class="eyebrow">Writing</span>
+      <h1>Notes & ideas</h1>
+      <p>
+        Technical notes, research reflections, and occasional personal writing.{" "}
+        <a href="/rss.xml">Subscribe via RSS ↗</a>
+      </p>
+    </div>
+  </div>
+  <div class="container blog-list">
+    {posts.length ? (
+      posts.map((post) => (
+        <article>
+          <div class="post-meta">
+            <time datetime={post.data.publishedAt.toISOString()}>
+              {post.data.publishedAt.toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </time>
+            <span>{post.data.tags.join(" · ")}</span>
+          </div>
+          <div>
+            <h2>
+              <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+            </h2>
+            <p>{post.data.description}</p>
+            <a class="read-link" href={`/blog/${post.id}/`}>
+              Read article →
+            </a>
+          </div>
+        </article>
+      ))
+    ) : (
+      <div class="empty-state">
+        <strong>Writing is on its way.</strong>
+        <p>
+          No posts have been published yet. Subscribe to the RSS feed to catch
+          the first one.
+        </p>
+      </div>
+    )}
+  </div>
+</Layout>
+<style>
+  .blog-list {
+    padding: 35px 0;
+  }
+  .blog-list article {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 35px;
+    padding: 30px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .post-meta {
+    display: grid;
+    align-content: start;
+    gap: 5px;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  .blog-list h2 {
+    font-size: 1.8rem;
+    margin: 0 0 8px;
+  }
+  .blog-list h2 a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .blog-list h2 a:hover {
+    color: var(--accent);
+  }
+  .blog-list article p {
+    max-width: 650px;
+    color: var(--muted);
+    margin: 0 0 15px;
+  }
+  .read-link {
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+  }
+  .empty-state {
+    margin-top: 20px;
+  }
+  .empty-state p {
+    margin: 5px 0 0;
+  }
+  @media (max-width: 620px) {
+    .blog-list article {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+</style>

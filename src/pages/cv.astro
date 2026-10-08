@@ -1,0 +1,158 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { cv } from "../data/cv";
+---
+
+<Layout
+  title="CV"
+  description={`Curriculum vitae of ${cv.name}: ${cv.headline}, professional experience, research, and education.`}
+>
+  <div class="page-intro">
+    <div class="container cv-heading">
+      <div>
+        <span class="eyebrow">Curriculum vitae</span>
+        <h1>{cv.name}</h1>
+        <p>{cv.headline}</p>
+      </div>
+      <a class="button" href="/talal-alrawajfeh-cv.pdf" download>
+        Download PDF CV ↓
+      </a>
+    </div>
+  </div>
+  <div class="container cv-layout">
+    <div>
+      {cv.sections.map((section) => (
+        <section
+          class="cv-section"
+          id={section.id}
+          aria-labelledby={`${section.id}-title`}
+        >
+          <h2 id={`${section.id}-title`}>{section.title}</h2>
+          <div class="cv-content" set:html={section.html} />
+        </section>
+      ))}
+    </div>
+    <aside class="cv-sidebar">
+      <div class="sidebar-box">
+        <span class="eyebrow">Contact</span>
+        <div class="cv-contact" set:html={cv.contactHtml} />
+      </div>
+      <nav class="sidebar-box" aria-label="CV sections">
+        <span class="eyebrow">In this CV</span>
+        {cv.sections.map((section) => (
+          <a href={`#${section.id}`}>{section.title}</a>
+        ))}
+      </nav>
+    </aside>
+  </div>
+</Layout>
+<style>
+  .cv-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 30px;
+  }
+  .cv-heading h1 {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+  }
+  .cv-heading .button {
+    flex: none;
+    margin-bottom: 4px;
+  }
+  .cv-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 235px;
+    gap: 70px;
+    padding-top: 44px;
+  }
+  .cv-section {
+    margin-bottom: 55px;
+    scroll-margin-top: 24px;
+  }
+  .cv-section h2 {
+    font-size: 2rem;
+    margin: 0 0 18px;
+  }
+  .cv-content :global(p) {
+    max-width: 750px;
+  }
+  .cv-content :global(a) {
+    overflow-wrap: anywhere;
+  }
+  #core-skills .cv-content :global(p) {
+    padding: 14px 0;
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+  #selected-publications-and-research .cv-content :global(ul) {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  #selected-publications-and-research .cv-content :global(li) {
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+  #selected-publications-and-research
+    .cv-content
+    :global(li > strong:first-child) {
+    display: block;
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .cv-sidebar {
+    position: sticky;
+    top: 20px;
+    align-self: start;
+  }
+  .sidebar-box {
+    border-top: 1px solid var(--line);
+    padding: 20px 0;
+    display: grid;
+    gap: 9px;
+    font-size: 0.88rem;
+  }
+  .sidebar-box .eyebrow {
+    margin-bottom: 5px;
+  }
+  .sidebar-box a,
+  .cv-contact :global(a) {
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .cv-contact {
+    line-height: 1.9;
+  }
+  @media (max-width: 850px) {
+    .cv-layout {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .cv-sidebar {
+      position: static;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+  }
+  @media (max-width: 620px) {
+    .cv-heading {
+      align-items: start;
+      flex-direction: column;
+    }
+    .cv-heading .button {
+      margin-top: 8px;
+    }
+    .cv-sidebar {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

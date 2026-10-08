@@ -1,0 +1,124 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[margin=1.35cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks,unicode]{hyperref}
+\usepackage{ragged2e}
+
+\definecolor{accent}{HTML}{17365D}
+\hypersetup{
+  pdftitle={Talal Alrawajfeh - Senior Applied Scientist},
+  pdfauthor={Talal Alrawajfeh},
+  pdfsubject={Resume},
+  pdfkeywords={machine learning, artificial intelligence, applied scientist, data scientist, AI engineer}
+}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlist[itemize]{leftmargin=1.25em,itemsep=1.4pt,topsep=2.5pt,parsep=0pt,partopsep=0pt}
+\titleformat{\section}{\large\bfseries\color{accent}}{}{0pt}{}[\vspace{-2pt}\color{accent}\titlerule]
+\titlespacing*{\section}{0pt}{7pt}{4pt}
+\urlstyle{same}
+
+\newcommand{\role}[4]{%
+  \textbf{#1} \hfill \textbf{#2}\\[-1pt]
+  \textit{#3} \hfill \textit{#4}\par\vspace{-2pt}
+}
+
+\begin{document}
+\RaggedRight
+
+\begin{center}
+  {\LARGE\bfseries TALAL ALRAWAJFEH}\\[2pt]
+  {\normalsize\bfseries Senior Applied Scientist}\\[4pt]
+  Helsinki, Finland \textbar{} +358 45 253 0012 \textbar{}
+  \href{mailto:talalalrawajfeh@gmail.com}{talalalrawajfeh@gmail.com}\\[2pt]
+  \href{https://www.linkedin.com/in/talal-alrawajfeh}{linkedin.com/in/talal-alrawajfeh} \textbar{}
+  \href{https://github.com/talalalrawajfeh}{github.com/talalalrawajfeh} \textbar{}
+  \href{https://orcid.org/0000-0002-5190-4339}{ORCID: 0000-0002-5190-4339}
+\end{center}
+\vspace{-5pt}
+
+\section{Professional Summary}
+Researcher and applied scientist with 10 years of experience across AI research, production machine learning, and software engineering.
+Five years of experience turning ambiguous, business-critical problems into production AI systems for regulated banking.
+Delivered a document signature verification model with 99\% accuracy, cheque OCR/ICR automating 80\% of manual data entry, and eKYC components supporting the automation of 70\% of online onboarding applications. 
+Combines mathematical depth with hands-on engineering and clear cross-functional technical leadership.
+
+\section{Core Skills}
+\textbf{Areas of Expertise:} Deep learning, machine learning, computer vision, time-series analysis and forecasting, anomaly detection, probabilistic modelling, Bayesian statistics, continual learning, neural processes, tabular foundation models, differential privacy, interpretability and explainability, Mathematics, formal verification, software engineering \\
+\textbf{Programming and Tools:} Python, C, C++, x86-64 Assembly, Java, Kotlin, Scala, C\#, Ruby, SQL, Lean, PyTorch, JAX, TensorFlow, Keras, scikit-learn, NumPy, SciPy, pandas, OpenCV, Pyro, Optuna, Numba\\
+\textbf{DevOps and MLOps:} MLflow, ONNX, OpenVINO, TensorFlow Lite, Docker, Kubernetes, Git, CI/CD \\
+\textbf{Software Engineering:} Spring Boot, .NET Core, Cython, FastAPI, Flask, Vert.x, Rails, Node.js, Kafka, CMake, Maven, Gradle, MySQL, Oracle Database, Redis, Elasticsearch
+
+\section{Professional Experience}
+\role{Doctoral Researcher}{Feb 2024--Present}{University of Helsinki}{Helsinki, Finland}
+\begin{itemize}
+  \item Lead theory-to-experiment research in privacy-preserving machine learning spanning differential privacy, Bayesian inference, variational inference, continual learning, neural processes, and tabular foundation models.
+  \item Introduced PrivTab, a tabular foundation model for differentially private classification that adapts to new datasets through in-context learning in a single forward pass; first-author preprint, 2026.
+  \item Introduced noise-aware differentially private variational inference for high-dimensional, non-conjugate models; designed a more accurate posterior evaluation method and demonstrated calibrated results on Bayesian regression tasks. Published first-author work at AISTATS 2025.
+  \item Co-led an equal-contribution TMLR 2026 paper identifying classifier output label spaces as a privacy side channel; formalized differential privacy for continual learning and evaluated two mechanisms that restore valid privacy guarantees.
+  \item Formalized differential privacy mechanisms and sensitivity proofs in Lean 4; run reproducible experiments at scale using Python, JAX, PyTorch, and high-performance computing infrastructure.
+  \item Teaching assistant for Introduction to Data Science (three academic years) and Practical Machine Learning.
+\end{itemize}
+
+\role{Senior Machine Learning Engineer}{May 2019--Feb 2024}{ProgressSoft Corporation}{Amman, Jordan}
+\begin{itemize}
+  \item Led multiple data science teams within the AI department, coordinating delivery through regular technical reviews and checkpoints while owning problem framing, experimentation, evaluation, production integration, and stakeholder communication.
+  \item Led deep-learning development for document signature segmentation and offline signature verification with 99\% accuracy; delivered OCR/ICR models that automated at least 80\% of manual data entry.
+  \item Built document segmentation, passive livenes, and facial recognition components for bank eKYC software, including ID-card/passport detection, perspective correction, template matching, and field extraction; contributed to automating at least 70\% of onboarding applications.
+  \item Created domain-agnostic cash-flow forecasting systems combining statistical, ML, and deep-learning models; designed adaptive transaction anomaly detection that tracks customer-behaviour drift with controllable sensitivity.
+  \item Deployed models as part of ProgressSoft software running on premises in banks; optimized inference with ONNX, OpenVINO, TensorFlow Lite, hardware benchmarking, and modern C++ implementations using SIMD/AVX.
+  \item Technically led MessageDepot, an LLM-enabled system developed by team members for natural-language-to-SQL querying, result summarization, and chart generation.
+  \item Interviewed candidates, screened CVs, onboarded employees, and created supervised self-learning improvement plans with structured checkpoints, progress reviews, and task feedback; helped coordinate work across the AI department.
+\end{itemize}
+
+\role{Backend Engineer}{Apr 2018--Apr 2019}{Strategic Directory for Shopping Sites / Blue Kangaroo}{Amman, Jordan}
+\begin{itemize}
+  \item Built data collection and analysis pipelines and production APIs for a white-label, AI-enabled e-commerce shopping assistant using Ruby on Rails, Kafka, and Elasticsearch.
+  \item Improved reliability and maintainability through refactoring, code review, unit and integration testing, and documentation of APIs and integrations while collaborating across multiple teams.
+\end{itemize}
+
+\role{Associate Java Developer}{Sep 2016--Mar 2018}{ProgressSoft Corporation}{Amman, Jordan}
+\begin{itemize}
+  \item Developed and maintained large-scale electronic payment solutions for banks and corporates, including an electronic cheque-deposit service with multiple external REST and RPC integrations.
+  \item Delivered regulated financial software using Java, Spring Boot, Hibernate/JPA, TDD, clean code, Agile, DevOps, performance benchmarking.
+\end{itemize}
+
+\section{Selected Publications and Research}
+\begin{itemize}
+  \item \textbf{Interpretable Differentially Private Continual Learning with Prototype-Based Classifiers.} Yuan He, \textbf{Talal Alrawajfeh}, Wachirapatra Mahatubgris, Agil Aghasanli, Mikko A. Heikkilä, Plamen P Angelov, Antti Honkela. Submitted to ICLR.
+  \item \textbf{Efficient Provably Private Classification with a Tabular Foundation Model.} \textbf{Talal Alrawajfeh}, Cristiana Diaconu, Ossi Räisä, Sebastian Rodriguez Beltran, Yuan He, John Bronskill, Richard E. Turner, Antti Honkela. arXiv preprint, 2026. \href{https://arxiv.org/abs/2610.10068}{arXiv:2610.10068} \textbar{} \href{https://arxiv.org/pdf/2610.10068}{Paper} \textbar{} \href{https://github.com/TrustworthyMLHelsinki/PrivTab}{Code}
+  \item \textbf{Privacy Leakage via Output Label Space and Differentially Private Continual Learning.} Marlon Tobaben*, \textbf{Talal Alrawajfeh}*, Marcus Klasson, Mikko A. Heikkilä, Arno Solin, Antti Honkela. TMLR, 2026. *Equal contribution. \href{https://openreview.net/forum?id=ejnVWfknCm}{Paper} \textbar{} \href{https://github.com/TrustworthyMLHelsinki/dp-continual-learning}{Code}
+  \item \textbf{Noise-Aware Differentially Private Variational Inference.} \textbf{Talal Alrawajfeh}, Joonas Jälkö, Antti Honkela. AISTATS 2025, PMLR 258:4987--4995; poster presentation. \href{https://proceedings.mlr.press/v258/alrawajfeh25a.html}{Paper} \textbar{} \href{https://github.com/DPBayes/noise-aware-dpvi}{Code}
+\end{itemize}
+
+\section{Education}
+\role{PhD in Science}{Feb 2024--Expected 2027}{University of Helsinki}{Helsinki, Finland}
+Specialization: Computer Science
+
+Research focus: trustworthy machine learning, privacy-preserving machine learning, Bayesian statistics, amortized inference, continual learning, neural processes, and tabular foundation models. 
+
+Coursework average: \textbf{5.0/5.0}.
+
+\vspace{3pt}
+\role{MSc in Mathematics}{Sep 2017--Aug 2019}{University of Jordan}{Amman, Jordan}
+GPA: \textbf{4.0/4.0; first in class}. 
+
+Thesis: \textit{On D-spaces and Covering Properties}; research in general topology, covering properties, and category-theoretic approaches to the D-space problem.
+
+\vspace{3pt}
+\role{BSc in Mathematics}{Sep 2013--Aug 2016}{University of Jordan}{Amman, Jordan}
+GPA: \textbf{3.83/4.0; first in class}. Completed the degree in three years.
+\section{Additional Information}
+\textbf{Work status:} Authorized to work in Finland; available with two weeks' notice; seeking Helsinki-based hybrid or remote roles\\
+\textbf{Languages:} Arabic (native); English (full professional proficiency; TOEFL iBT 105/120); Finnish (approximately CEFR A2; University of Helsinki coursework through \href{https://studies.helsinki.fi/kurssit/toteutus/otm-67570c2a-f9ed-467f-92a7-d78330209a79}{Finnish 5A}; actively studying)\\
+
+\end{document}

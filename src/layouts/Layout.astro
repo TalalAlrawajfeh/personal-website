@@ -1,23 +1,138 @@
+---
+import "../styles/global.css";
+import "katex/dist/katex.min.css";
+import { site } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article";
+}
+const {
+  title,
+  description = site.description,
+  image = "/portrait.jpg",
+  type = "website",
+} = Astro.props;
+const pageTitle = title
+  ? `${title} | ${site.name}`
+  : `${site.name} | Trustworthy machine learning`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const imageUrl = new URL(image, Astro.site);
+const nav = [
+  { href: "/about/", label: "About" },
+  { href: "/research/", label: "Research" },
+  { href: "/publications/", label: "Publications" },
+  { href: "/blog/", label: "Blog" },
+  { href: "/cv/", label: "CV" },
+];
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f7f7f3" />
+    <link rel="icon" type="image/svg+xml" href="/monogram.svg" />
+    <link rel="canonical" href={canonical} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Talal Alrawajfeh — Blog"
+      href="/rss.xml"
+    />
+    <meta name="description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary" />
+    <title>{pageTitle}</title>
+    <script is:inline>
+      try {
+        const theme = localStorage.getItem("theme");
+        if (theme === "light" || theme === "dark")
+          document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Talal Alrawajfeh, home">
+          <span class="brand-mark">
+            TA<span>.</span>
+          </span>
+          <span class="brand-name">Talal Alrawajfeh</span>
+        </a>
+        <nav aria-label="Main navigation">
+          {nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={
+                Astro.url.pathname.startsWith(item.href) ? "page" : undefined
+              }
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        <button
+          class="theme-toggle"
+          type="button"
+          aria-label="Toggle dark mode"
+          title="Toggle dark mode"
+        >
+          <span class="theme-icon" aria-hidden="true">
+            ◐
+          </span>
+        </button>
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <strong>Talal Alrawajfeh</strong>
+          <span>Doctoral researcher · University of Helsinki</span>
+        </div>
+        <div class="footer-links">
+          <a href={`mailto:${site.email}`}>Email</a>
+          <a href={site.github}>GitHub</a>
+          <a href={site.orcid}>ORCID</a>
+          <a href="/rss.xml">RSS</a>
+        </div>
+        <small>© {new Date().getFullYear()} Talal Alrawajfeh</small>
+      </div>
+    </footer>
+    <script>
+      const button = document.querySelector<HTMLButtonElement>(".theme-toggle");
+      button?.addEventListener("click", () => {
+        const current =
+          document.documentElement.dataset.theme ||
+          (matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        const next = current === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = next;
+        try {
+          localStorage.setItem("theme", next);
+        } catch {}
+        button.setAttribute(
+          "aria-label",
+          `Switch to ${next === "dark" ? "light" : "dark"} mode`,
+        );
+      });
+    </script>
+  </body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

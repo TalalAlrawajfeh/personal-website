@@ -1,0 +1,67 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { getCollection } from "astro:content";
+import { newestFirst } from "../../data/publication-order";
+const projects = (await getCollection("research")).sort(newestFirst);
+const groups = [
+  {
+    status: "ongoing",
+    heading: "Ongoing work",
+    description: "Questions and methods currently under investigation.",
+  },
+  {
+    status: "preprint",
+    heading: "Preprints",
+    description: "Research shared ahead of formal publication.",
+  },
+  {
+    status: "published",
+    heading: "Published research",
+    description: "Peer reviewed work and published results.",
+  },
+] as const;
+---
+
+<Layout
+  title="Research"
+  description="Research projects by Talal Alrawajfeh in differential privacy, Bayesian inference, continual learning, and tabular machine learning."
+>
+  <div class="page-intro">
+    <div class="container">
+      <span class="eyebrow">Research</span>
+      <h1>
+        Ideas in progress,
+        <br />
+        results in print.
+      </h1>
+      <p>
+        Work across differential privacy, Bayesian inference, continual
+        learning, and foundation models for tabular data.
+      </p>
+    </div>
+  </div>
+  {groups.map((group) => {
+    const entries = projects.filter((p) => p.data.status === group.status);
+    return (
+      entries.length > 0 && (
+        <section class="section container">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">
+                {String(entries.length).padStart(2, "0")} projects
+              </p>
+              <h2>{group.heading}</h2>
+              <p class="muted">{group.description}</p>
+            </div>
+          </div>
+          <div class="card-grid">
+            {entries.map((project) => (
+              <ProjectCard project={project} />
+            ))}
+          </div>
+        </section>
+      )
+    );
+  })}
+</Layout>

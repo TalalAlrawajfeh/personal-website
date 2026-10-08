@@ -1,11 +1,274 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { site } from "../data/site";
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
 ---
 
 <Layout>
-	<Welcome />
+  <section class="hero container">
+    <div class="hero-copy">
+      <p class="eyebrow">Doctoral researcher · University of Helsinki</p>
+      <h1>
+        Talal
+        <br />
+        <em>
+          Alrawajfeh<span>.</span>
+        </em>
+      </h1>
+      <p class="hero-lead">
+        I work on trustworthy machine learning, building AI systems that are
+        understandable, reliable, privacy-preserving, and able to adapt.
+      </p>
+      <div class="hero-background">
+        <p>
+          My research brings together differential privacy, Bayesian inference,
+          continual learning, and tabular foundation models. With a background
+          in mathematics, I am interested in connecting formal guarantees with
+          methods that work in practice.
+        </p>
+        <p>
+          Before doctoral research, I worked in software engineering and spent
+          five years building production machine learning systems for banking.
+          That experience shapes how I approach research: from mathematical
+          modelling and experimentation to implementation and deployment.
+        </p>
+      </div>
+      <div class="hero-actions">
+        <a class="button" href="/research/">
+          Explore research <span aria-hidden="true">↗</span>
+        </a>
+        <a class="button secondary" href="/cv/">
+          View CV
+        </a>
+      </div>
+      <div class="social-links">
+        <a href={site.github}>GitHub</a>
+        <a href={site.googleScholar}>Google Scholar</a>
+        <a href={site.linkedin}>LinkedIn</a>
+        <a href={`mailto:${site.email}`}>Email</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="portrait-frame">
+        <img
+          src="/portrait.jpg"
+          alt="Portrait of Talal Alrawajfeh"
+          width="600"
+          height="600"
+          fetchpriority="high"
+        />
+      </div>
+      <span class="portrait-caption">Mathematician · Computer Scientist</span>
+    </div>
+  </section>
+  <div class="container">
+    <div class="statement">
+      <span class="statement-index">01 / Perspective</span>
+      <p>
+        My work sits where mathematical rigour meets practical machine learning.
+      </p>
+    </div>
+  </div>
+  <section class="section container" aria-labelledby="blog-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Notes & ideas</p>
+        <h2 id="blog-title">Recent writing</h2>
+      </div>
+      <a href="/blog/">Visit blog</a>
+    </div>
+    {posts.length ? (
+      <div class="post-list">
+        {posts.map((post) => (
+          <article>
+            <time datetime={post.data.publishedAt.toISOString()}>
+              {post.data.publishedAt.toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+            </time>
+            <h3>
+              <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+            </h3>
+            <p>{post.data.description}</p>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <div class="empty-state">
+        The blog is being prepared. Technical notes and research reflections
+        will appear here.
+      </div>
+    )}
+  </section>
 </Layout>
+<style>
+  .hero {
+    padding: 92px 0 85px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 80px;
+    align-items: center;
+  }
+  .hero h1 {
+    font-size: clamp(4rem, 7.4vw, 7.2rem);
+    line-height: 0.98;
+    margin: 23px 0 28px;
+  }
+  .hero h1 em {
+    font-weight: 400;
+  }
+  .hero h1 span {
+    color: var(--accent);
+  }
+  .hero-lead {
+    max-width: 650px;
+    font-family: var(--serif);
+    font-size: clamp(1.35rem, 2vw, 1.7rem);
+    line-height: 1.4;
+    color: var(--muted);
+  }
+  .hero-background {
+    max-width: 650px;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+  .hero-background p {
+    margin-bottom: 16px;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 30px 0 34px;
+  }
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    font-size: 0.84rem;
+    font-weight: 700;
+  }
+  .social-links a {
+    text-decoration: none;
+  }
+  .hero-visual {
+    justify-self: end;
+    position: relative;
+    width: min(100%, 280px);
+  }
+  .portrait-frame {
+    padding: 12px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: 20px 20px 0 var(--accent-soft);
+  }
+  .portrait-frame img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    filter: saturate(0.78);
+  }
+  .portrait-caption {
+    display: block;
+    text-align: right;
+    margin-top: 32px;
+    color: var(--muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+  }
+  .statement {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 35px 0;
+    display: grid;
+    grid-template-columns: 230px 1fr;
+    gap: 30px;
+    align-items: start;
+  }
+  .statement-index {
+    font-size: 0.72rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 800;
+  }
+  .statement p {
+    font-family: var(--serif);
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    line-height: 1.4;
+    margin: 0;
+    max-width: 780px;
+  }
+  .post-list article {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 8px 25px;
+    padding: 22px 0;
+    border-top: 1px solid var(--line);
+  }
+  .post-list time {
+    font-size: 0.82rem;
+    color: var(--muted);
+    grid-row: span 2;
+  }
+  .post-list h3,
+  .post-list p {
+    margin: 0;
+  }
+  .post-list h3 a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .post-list p {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  @media (max-width: 800px) {
+    .hero {
+      gap: 34px;
+    }
+    .hero h1 {
+      font-size: clamp(3.4rem, 8vw, 5rem);
+    }
+  }
+  @media (max-width: 620px) {
+    .hero {
+      padding: 60px 0;
+      grid-template-columns: 1fr;
+      gap: 34px;
+    }
+    .hero-visual {
+      width: 180px;
+      justify-self: start;
+      order: -1;
+    }
+    .portrait-caption {
+      display: none;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 12.5vw, 3.4rem);
+      margin: 15px 0 20px;
+    }
+    .statement {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .post-list article {
+      grid-template-columns: 1fr;
+    }
+    .post-list time {
+      grid-row: auto;
+    }
+    .section-head {
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  }
+</style>

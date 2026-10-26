@@ -27,7 +27,7 @@ Required frontmatter: `title`, `authors`, `venue`, `year`. Optional fields: `det
 
 ### Blog: `src/content/blog/`
 
-Required frontmatter: `title`, `description`, `publishedAt`. Optional fields: `updatedAt`, `tags`, `draft`, `image`. Drafts do not appear in listings, detail pages, or RSS. The blog intentionally starts empty because no authored posts were supplied.
+Required frontmatter: `title`, `description`, `publishedAt`. Optional fields: `updatedAt`, `tags`, `draft`, `image`. Drafts do not appear in listings, detail pages, or RSS. `mathematics-formalization.md` contains the full Markdown version of “What Does a Machine-Checked Proof Actually Verify?”, with equations, Lean examples, diagrams, and linked references from the original note.
 
 Example `src/content/blog/my-first-post.mdx`:
 

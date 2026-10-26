@@ -64,4 +64,120 @@ const { Content } = await render(post);
   .article-body > .tag-list {
     margin-top: 45px;
   }
+  .prose :global([id]) {
+    scroll-margin-top: 24px;
+  }
+  .prose :global(.article-callout) {
+    margin: 1.5em 0;
+    padding: 20px 24px;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    background: var(--accent-soft);
+    color: var(--ink);
+  }
+  .prose :global(.article-callout p:last-child) {
+    margin-bottom: 0;
+  }
+  .prose :global(.callout-label) {
+    margin: 0 0 12px;
+    color: var(--accent);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .prose :global(.correspondence-pairs) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px 48px;
+    font-family: var(--serif);
+    font-size: 1.2rem;
+  }
+  .prose :global(.correspondence-pairs > span) {
+    white-space: nowrap;
+  }
+  .prose :global(.correspondence-pairs span span) {
+    padding-inline: 8px;
+    color: var(--accent);
+  }
+  .prose :global(.quote-source),
+  .prose :global(.code-caption),
+  .prose :global(figcaption) {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .prose :global(.code-caption) {
+    margin: 1.5em 0 0.6em;
+  }
+  .prose :global(.proof-process) {
+    margin: 2em 0;
+  }
+  .prose :global(.process-flow),
+  .prose :global(.process-input),
+  .prose :global(.process-checked) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .prose :global(.process-input) {
+    flex: 1;
+  }
+  .prose :global(.process-scope) {
+    flex: 1.6;
+    min-width: 0;
+    padding: 12px;
+    border: 1px dashed var(--accent);
+    border-radius: 6px;
+  }
+  .prose :global(.process-scope .callout-label) {
+    text-align: center;
+    font-size: 0.65rem;
+  }
+  .prose :global(.process-step) {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 8px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--accent-soft);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-align: center;
+  }
+  .prose :global(.process-arrow) {
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+  .prose :global(figcaption) {
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+  .prose :global(a[href^="#ref-"]) {
+    font-size: 0.85em;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .prose :global(a[href^="#ref-"]:hover) {
+    text-decoration: underline;
+  }
+  .prose :global(ol:has(a[id^="ref-"])) {
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 620px) {
+    .prose :global(.process-flow),
+    .prose :global(.process-input),
+    .prose :global(.process-checked) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .prose :global(.process-arrow) {
+      align-self: center;
+      transform: rotate(90deg);
+    }
+    .prose :global(.process-step) {
+      padding: 12px;
+    }
+  }
 </style>

@@ -1,7 +1,7 @@
 ---
 title: What Does a Machine-Checked Proof Actually Verify?
 description: Limits of Formal Verification and Autoformalization
-publishedAt: 2026-10-26
+publishedAt: 2026-11-08
 tags: [Mathematics, Formal verification, Lean, Autoformalization, Epistemology, Philosophy of mathematics]
 draft: false
 ---

@@ -15,7 +15,7 @@ const { Content } = await render(post);
 <Layout
   title={post.data.title}
   description={post.data.description}
-  image={post.data.image}
+  image={post.data.image ?? null}
   type="article"
 >
   <div class="page-intro">
